@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hello</title>
+	<script type="text/javascript" src="build/react.js"></script>
+	<script type="text/javascript" src="build/JSXTransformer.js"></script>
+</head>
+<body>
+<div id="container"></div>
+
+<div id="time"></div>
+
+<div id="state-time"></div>
+
+<div id="click-me"></div>
+
+<div id="add-me"></div>
+
+<script type="text/jsx">
+	var HelloApp = React.createClass({
+		render: function() {
+			return(<h1>Hello {this.props.name}!</h1>);
+		}
+	});
+
+	React.render(<HelloApp name="Ferdi Ramdhon" />, document.getElementById('container'));
+
+	var TimeApp = React.createClass({
+		render: function() {
+			return <h1>{this.props.date.toLocaleString()}</h1>
+		}
+	});
+
+	setInterval(function() {
+		React.render(<TimeApp date={new Date()} />, document.getElementById('time'));
+	}, 1000);
+
+	var StateTimeApp = React.createClass({
+		getInitialState: function() {
+
+			setInterval(function() {
+				this.setState({date: new Date()});
+			}.bind(this), 2000);
+
+			return {date: new Date()};
+		},
+		render: function() {
+			return <h3>{this.state.date.toLocaleString()}</h3>
+		}
+	});
+
+	React.render(<StateTimeApp />, document.getElementById('state-time'));
+
+	var ClickMeApp = React.createClass({
+		render: function() {
+			return(<button onClick={this.sayHi}>Click me</button>);
+		},
+		sayHi: function() {
+			alert('Hi');
+		}
+	});
+
+	React.render(<ClickMeApp />, document.getElementById('click-me'));
+
+	var AddMeApp = React.createClass({
+		getInitialState: function() {
+			return {number: 0};
+		},
+		addMe: function() {
+			this.setState({number: this.state.number + 1});
+		},
+		render: function() {
+			return(<span><button onClick={this.addMe}>Add me</button> {this.state.number}</span>);
+		}
+	});
+
+	React.render(<AddMeApp />, document.getElementById('add-me'));
+</script>
+</body>
+</html>
